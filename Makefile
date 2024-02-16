@@ -23,6 +23,8 @@ endif
 
 export TOPDIR SRCDIR OUTDIR SCRIPTS_DIR KCONFIG_DIR
 
+include $(SCRIPTS_DIR)/verbosity.mk
+
 MAKEFLAGS += --no-print-directory
 
 menuconfig:
