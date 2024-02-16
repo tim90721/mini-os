@@ -1,0 +1,2 @@
+
+hostprog += fixdep

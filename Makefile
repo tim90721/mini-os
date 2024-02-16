@@ -21,9 +21,11 @@ ifeq ($(OUTDIR),)
 $(error "create output directory: $(OUTDIR) failed")
 endif
 
-export TOPDIR SRCDIR OUTDIR SCRIPTS_DIR KCONFIG_DIR
+TOOLS_OUTDIR	:= $(OUTDIR)/tools
+export TOPDIR SRCDIR OUTDIR SCRIPTS_DIR KCONFIG_DIR TOOLS_OUTDIR
 
 include $(SCRIPTS_DIR)/verbosity.mk
+include $(SCRIPTS_DIR)/build-include.mk
 
 MAKEFLAGS += --no-print-directory
 
@@ -34,5 +36,13 @@ menuconfig:
 config:
 	$(if $(wildcard .config),,$(error "please configure project first"))
 
-all: config
+all: config tools
 	@:
+
+tools: FORCE
+	$(Q)$(MAKE) $(build)=tools/basic
+
+PHONY += FORCE
+FORCE:
+
+.PHONY: $(PHONY)
