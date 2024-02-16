@@ -1,4 +1,5 @@
 include $(SCRIPTS_DIR)/build-include.mk
+include $(SCRIPTS_DIR)/compiler.mk
 include $(SCRIPTS_DIR)/compiler-host.mk
 include .config
 
@@ -18,14 +19,26 @@ include $(target-build-mk)
 
 ifneq ($(hostprog),)
 include $(SCRIPTS_DIR)/build-host.mk
+else # hostprog == ""
+include $(SCRIPTS_DIR)/build-target.mk
 endif # hostprog != ""
 
-__build: $(hostprog)
+__build: $(hostprog) $(target) $(subdir-obj-y)
 	@:
+
+$(subdir-obj-y): $(subdir-y)
+
+PHONY += $(subdir-y)
+$(subdir-y):
+	$(Q)$(MAKE) $(build)=$@
+
+PHONY += FORCE
+FORCE:
 
 # if obj directory is not exist, create for it
 ifeq ($(wildcard $(obj)),)
 $(shell mkdir -p $(obj))
 endif # $(wildcard $(obj)) == ""
 
+-include $(foreach m,$(target) $(obj-y),$(dir $(m))/.$(notdir $(m)).cmd)
 .PHONY: $(PHONY)

@@ -1,5 +1,8 @@
 all:
 
+CROSS_COMPILE ?= riscv32-unknown-elf-
+export CROSS_COMPILE
+
 # remove all default make rules
 MAKEFLAGS += -rR
 
@@ -24,6 +27,14 @@ endif
 TOOLS_OUTDIR	:= $(OUTDIR)/tools
 export TOPDIR SRCDIR OUTDIR SCRIPTS_DIR KCONFIG_DIR TOOLS_OUTDIR
 
+# target related variables including target name, directory name etc.
+TARGET		?= image
+TARGET_SRCDIR	:= $(SRCDIR)/
+TARGET_OUTDIR	:= $(OUTDIR)/$(TARGET)
+TARGET_LIB	:= $(TARGET_OUTDIR)/built-in.a
+TARGET_ELF	:= $(TARGET_OUTDIR)/$(TARGET).elf
+export TARGET TARGET_OUTDIR
+
 include $(SCRIPTS_DIR)/verbosity.mk
 include $(SCRIPTS_DIR)/build-include.mk
 
@@ -36,11 +47,20 @@ menuconfig:
 config:
 	$(if $(wildcard .config),,$(error "please configure project first"))
 
-all: config tools
+all: config tools $(TARGET_ELF)
 	@:
 
 tools: FORCE
 	$(Q)$(MAKE) $(build)=tools/basic
+
+$(TARGET_ELF): $(TARGET_LIB)
+	$(Q)$(MAKE) -f $(SCRIPTS_DIR)/link-target.mk elf=$(TARGET_ELF) lib=$(TARGET_LIB)
+
+$(TARGET_LIB): $(TARGET_SRCDIR)
+
+PHONY += $(TARGET_SRCDIR)
+$(TARGET_SRCDIR):
+	$(Q)$(MAKE) $(build)=$@
 
 PHONY += FORCE
 FORCE:
