@@ -1,2 +1,3 @@
 
 source "arch/Config.in"
+source "drivers/Config.in"
