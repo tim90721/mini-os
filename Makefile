@@ -62,6 +62,12 @@ PHONY += $(TARGET_SRCDIR)
 $(TARGET_SRCDIR):
 	$(Q)$(MAKE) $(build)=$@
 
+quiet_cmd_clean =   CLEAN
+cmd_clean = rm -rf $(OUTDIR)
+PHONY += clean
+clean:
+	$(call cmd,clean)
+
 PHONY += FORCE
 FORCE:
 
