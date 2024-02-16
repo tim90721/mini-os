@@ -1,0 +1,4 @@
+
+config ARCH_RISC_V
+	bool "RISV-V"
+	default y
