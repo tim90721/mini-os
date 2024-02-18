@@ -73,7 +73,8 @@ clean:
 	$(call cmd,clean)
 
 PHONY += run
-run: $(TARGET_ELF)
+run: build
+	$(call cmd,qemu_run)
 
 PHONY += FORCE
 FORCE:
