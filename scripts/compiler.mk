@@ -9,10 +9,11 @@ OBJDUMP		= $(CROSS_COMPILE)objdump
 OBJSIZE		= $(CROSS_COMPILE)size
 
 # default C flags
-CFLAGS := -Wall -Werror		# enable all warning as error
-CFLAGS += -fno-builtin		# disable compiler default built-in functions
-CFLAGS += -I$(SRCDIR)/include	# add default include directories
-CFLAGS += -I$(SRCDIR)/include/platform
+CFLAGS := -Wall -Werror			# enable all warning as error
+CFLAGS += -fno-builtin			# disable compiler default built-in functions
+CFLAGS += -I$(SRCDIR)/include		# add default include directory
+CFLAGS += -I$(SRCDIR)/include/platform	# add platform include directory
+CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
 
 # customizable C flags
 ccflags-y :=
