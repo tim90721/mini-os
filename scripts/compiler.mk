@@ -15,6 +15,10 @@ CFLAGS += -I$(SRCDIR)/include		# add default include directory
 CFLAGS += -I$(SRCDIR)/include/platform	# add platform include directory
 CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
 
+ifeq ($(DEBUG_BUILD),1)
+CFLAGS += -g
+endif
+
 # customizable C flags
 ccflags-y :=
 
