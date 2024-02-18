@@ -36,8 +36,15 @@ TARGET_LIB	:= $(TARGET_OUTDIR)/built-in.a
 TARGET_ELF	:= $(TARGET_OUTDIR)/$(TARGET).elf
 export TARGET TARGET_OUTDIR
 
+DEBUG_BUILD := 0
+ifneq ($(filter $(MAKECMDGOALS),debug),)
+DEBUG_BUILD := 1
+endif
+export DEBUG_BUILD
+
 include $(SCRIPTS_DIR)/verbosity.mk
 include $(SCRIPTS_DIR)/build-include.mk
+include $(SCRIPTS_DIR)/gdb.mk
 include $(SCRIPTS_DIR)/qemu.mk
 
 MAKEFLAGS += --no-print-directory
@@ -75,6 +82,10 @@ clean:
 PHONY += run
 run: build
 	$(call cmd,qemu_run)
+
+PHONY += debug
+debug: build
+	$(call cmd,qemu_debug)
 
 PHONY += FORCE
 FORCE:
