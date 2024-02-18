@@ -1,7 +1,8 @@
 all:
 
 CROSS_COMPILE ?= riscv32-unknown-elf-
-export CROSS_COMPILE
+QEMU ?= qemu-system-riscv32
+export CROSS_COMPILE QEMU
 
 # remove all default make rules
 MAKEFLAGS += -rR
@@ -37,6 +38,7 @@ export TARGET TARGET_OUTDIR
 
 include $(SCRIPTS_DIR)/verbosity.mk
 include $(SCRIPTS_DIR)/build-include.mk
+include $(SCRIPTS_DIR)/qemu.mk
 
 MAKEFLAGS += --no-print-directory
 
@@ -47,8 +49,10 @@ menuconfig:
 config:
 	$(if $(wildcard .config),,$(error "please configure project first"))
 
-all: config tools $(TARGET_ELF)
+all: build
 	@:
+
+build: config tools $(TARGET_ELF)
 
 tools: FORCE
 	$(Q)$(MAKE) $(build)=tools/basic
@@ -67,6 +71,9 @@ cmd_clean = rm -rf $(OUTDIR)
 PHONY += clean
 clean:
 	$(call cmd,clean)
+
+PHONY += run
+run: $(TARGET_ELF)
 
 PHONY += FORCE
 FORCE:
