@@ -11,7 +11,7 @@ __link: $(out-elf)
 
 
 ld-flags := $(LD_FLAGS) $(ld-flags-y) -Wl,--whole-archive
-quiet_cmd_link =   LINK $(patsubst $(TARGET_OUTDIR)/%,%,$@)
+quiet_cmd_link =   LINK   $(patsubst $(TARGET_OUTDIR)/%,%,$@)
 cmd_link = $(CC) $(ld-flags) -o $@ $^
 $(out-elf): $(src-lib)
 	$(call if_changed,link)
