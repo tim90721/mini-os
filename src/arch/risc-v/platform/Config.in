@@ -1,0 +1,14 @@
+
+choice
+	prompt "RISC-V Target Platform"
+	depends on ARCH_RISC_V
+	default PLATFORM_QEMU_RISC_V_VIRT
+
+	config PLATFORM_QEMU_RISC_V_VIRT
+		bool "Platform Qemu RISC-V Virt"
+
+endchoice
+
+config PLATFORM
+	string
+	default "virt" if PLATFORM_QEMU_RISC_V_VIRT

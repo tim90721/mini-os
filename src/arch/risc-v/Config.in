@@ -1,0 +1,2 @@
+
+source "arch/risc-v/platform/Config.in"

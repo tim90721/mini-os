@@ -1,4 +1,15 @@
 
-config ARCH_RISC_V
-	bool "RISV-V"
-	default y
+choice
+	prompt "Target Architecture"
+	default ARCH_RISC_V
+
+	config ARCH_RISC_V
+		bool "RISV-V"
+
+endchoice
+
+config ARCH
+	string
+	default "risc-v" if ARCH_RISC_V
+
+source "arch/risc-v/Config.in"
