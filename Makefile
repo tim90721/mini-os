@@ -45,6 +45,7 @@ export DEBUG_BUILD
 include $(SCRIPTS_DIR)/verbosity.mk
 include $(SCRIPTS_DIR)/build-include.mk
 include $(SCRIPTS_DIR)/gdb.mk
+include $(SCRIPTS_DIR)/kconfig.mk
 include $(SCRIPTS_DIR)/qemu.mk
 
 MAKEFLAGS += --no-print-directory
@@ -53,13 +54,19 @@ menuconfig:
 	@export srctree=$(SRCDIR);					\
 	python3 $(KCONFIG_DIR)/menuconfig.py Config.in
 
+genconfig:
+	@$(if $(wildcard $(AUTOCONF_DIR)),,mkdir -p $(AUTOCONF_DIR))
+	@export srctree=$(SRCDIR); python3				\
+	$(KCONFIG_DIR)/genconfig.py Config.in				\
+	--header-path $(AUTOCONF_HEADER)
+
 config:
 	$(if $(wildcard .config),,$(error "please configure project first"))
 
 all: build
 	@:
 
-build: config tools $(TARGET_ELF)
+build: config genconfig tools $(TARGET_ELF)
 
 tools: FORCE
 	$(Q)$(MAKE) $(build)=tools/basic
