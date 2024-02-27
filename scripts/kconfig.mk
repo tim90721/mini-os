@@ -1,0 +1,5 @@
+
+AUTOCONF_DIR	:= $(OUTDIR)/include/generated
+AUTOCONF_HEADER	:= $(AUTOCONF_DIR)/autoconf.h
+
+export AUTOCONF_DIR AUTOCONF_HEADER

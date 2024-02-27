@@ -22,6 +22,9 @@ CFLAGS += -I$(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/include
 # drivers default include directories
 CFLAGS += -I$(SRCDIR)/drivers/include
 
+# autoconf
+CFLAGS += -include$(AUTOCONF_HEADER)
+
 ifeq ($(DEBUG_BUILD),1)
 CFLAGS += -g
 endif
