@@ -186,7 +186,8 @@ static int vprintf(const char *fmt, va_list args)
 	if (done == 0)
 		return done;
 
-	/* TODO: call customized write functions */
+	/* call customized write functions */
+	__write(buf);
 
 	return done;
 }
