@@ -8,6 +8,10 @@ pound := \#
 
 escsq = $(subst $(squote),'\$(squote)',$1)
 
+# strip quote of CONFIG_ARCH and CONFIG_PLATFORM
+ARCH := $(subst $(quote),,$(CONFIG_ARCH))
+PLATFORM := $(subst $(quote),,$(CONFIG_PLATFORM))
+
 # depfile name
 dot-target = $(patsubst %/,%,$(dir $@))/.$(notdir $@)
 depfile = $(subst $(comma),_,$(dot-target).d)

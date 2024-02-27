@@ -1,7 +1,7 @@
+include .config
 include $(SCRIPTS_DIR)/build-include.mk
 include $(SCRIPTS_DIR)/compiler.mk
 include $(SCRIPTS_DIR)/compiler-host.mk
-include .config
 
 src := $(object)
 obj := $(object)
