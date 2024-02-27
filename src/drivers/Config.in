@@ -1,1 +1,6 @@
 
+menu "Drivers"
+
+source "drivers/uart/Config.in"
+
+endmenu
