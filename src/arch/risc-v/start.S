@@ -1,4 +1,4 @@
-#include "platform.h"
+#include <platform/cpu.h>
 
 	.equ STACK_SIZE, 1024		# define STACK_SIZE 1024
 
