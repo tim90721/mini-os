@@ -1,5 +1,1 @@
 
-config TEST_DRIVER
-	bool "test driver"
-	default n
-	depends on ARCH_RISC_V
