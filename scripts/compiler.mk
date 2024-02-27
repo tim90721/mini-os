@@ -19,6 +19,9 @@ CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
 CFLAGS += -I$(SRCDIR)/arch/include
 CFLAGS += -I$(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/include
 
+# drivers default include directories
+CFLAGS += -I$(SRCDIR)/drivers/include
+
 ifeq ($(DEBUG_BUILD),1)
 CFLAGS += -g
 endif
