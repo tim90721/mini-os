@@ -31,9 +31,9 @@ static inline void buffer_input(char *buf, u32 *pos, u32 size, char c)
  * handle printf format %x
  */
 static void buffer_input_hex(char *buf, u32 *pos, u32 size,
-			     bool longarg, va_list args)
+			     bool longarg, va_list *args)
 {
-	long num = (longarg) ? va_arg(args, long) : va_arg(args, int);
+	long num = (longarg) ? va_arg(*args, long) : va_arg(*args, int);
 	long n;
 	int digits;
 	int i;
@@ -41,20 +41,22 @@ static void buffer_input_hex(char *buf, u32 *pos, u32 size,
 	digits = ((longarg) ? sizeof(long) : sizeof(int)) * 2;
 	for (i = 0; i < digits; i++) {
 		n = ((num) >> (4 * i)) & 0xF;
-		buffer_input(buf, pos, size,
+		__buffer_input(buf, pos, digits - i - 1, size,
 			     (n < 10) ? (n + '0') : (n - 10 + 'a'));
 	}
+
+	(*pos) += digits;
 }
 
 /*
  * handle printf format %d
  */
 static void buffer_input_digits(char *buf, u32 *pos, u32 size,
-				bool longarg, va_list args)
+				bool longarg, va_list *args)
 {
-	long num = (longarg) ? va_arg(args, long) : va_arg(args, int);
+	long num = (longarg) ? va_arg(*args, long) : va_arg(*args, int);
 	long n;
-	int digits = 0;
+	int digits = 1;
 	int i;
 
 	if (num < 0) {
@@ -62,11 +64,11 @@ static void buffer_input_digits(char *buf, u32 *pos, u32 size,
 		num = -num;
 	}
 
-	for (n = num; n /= num; digits++)
+	for (n = num; n /= 10; digits++)
 		;
 
 	for (i = digits - 1; i >= 0; i--) {
-		__buffer_input(buf, pos, i, size, num % 10);
+		__buffer_input(buf, pos, i, size, '0' + num % 10);
 		num /= 10;
 	}
 
@@ -94,7 +96,7 @@ static inline void buffer_input_string(char *buf, u32 *pos, u32 size,
  * TODO: support %p, %u
  */
 static int decode_format(char *buf, u32 *pos,
-			 u32 size, const char *fmt, va_list args)
+			 u32 size, const char *fmt, va_list *args)
 {
 	const char *old_fmt = fmt;
 	bool longarg = false;
@@ -114,10 +116,10 @@ static int decode_format(char *buf, u32 *pos,
 		longarg = 0;
 		break;
 	case 's':
-		buffer_input_string(buf, pos, size, va_arg(args, const char *));
+		buffer_input_string(buf, pos, size, va_arg(*args, const char *));
 		break;
 	case 'c':
-		buffer_input(buf, pos, size, va_arg(args, int));
+		buffer_input(buf, pos, size, va_arg(*args, int));
 		break;
 	case '%':
 		buffer_input(buf, pos, size, '%');
@@ -142,7 +144,7 @@ static int vsnprintf(char *buf, u32 size, const char *fmt, va_list args)
 			fmt++;
 			format = 1;
 		} else if (format) {
-			ret = decode_format(buf, &pos, size, fmt, args);
+			ret = decode_format(buf, &pos, size, fmt, &args);
 			if (ret < 0)
 				return 0;
 
