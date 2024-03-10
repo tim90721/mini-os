@@ -1,6 +1,6 @@
+include .config
 include $(SCRIPTS_DIR)/build-include.mk
 include $(SCRIPTS_DIR)/compiler.mk
-include .config
 
 out-elf := $(elf)
 src-lib := $(lib)
@@ -9,6 +9,11 @@ all: __link
 
 __link: $(out-elf)
 
+# default output linker script
+TARGET_OUTPUT_LD := $(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/output.ld
+
+LD_FLAGS += -T $(TARGET_OUTPUT_LD)
+LD_FLAGS += -Wl,-Map=$(TARGET_OUTDIR)/$(TARGET).map
 
 ld-flags := $(LD_FLAGS) $(ld-flags-y) -Wl,--whole-archive
 quiet_cmd_link =   LINK   $(patsubst $(TARGET_OUTDIR)/%,%,$@)

@@ -34,8 +34,6 @@ ccflags-y :=
 
 # default LD flags
 LD_FLAGS := -nostdlib					# disable default libc implementation
-LD_FLAGS += -Wl,-Map=$(TARGET_OUTDIR)/$(TARGET).map	# generate map
-LD_FLAGS += -Ttext=0x80000000				# temporary linker script
 
 # customizable LD flags
 ldflags-y :=
