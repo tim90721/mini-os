@@ -71,7 +71,7 @@ build: config genconfig tools $(TARGET_ELF)
 tools: FORCE
 	$(Q)$(MAKE) $(build)=tools/basic
 
-$(TARGET_ELF): $(TARGET_LIB)
+$(TARGET_ELF): $(TARGET_LIB) FORCE
 	$(Q)$(MAKE) -f $(SCRIPTS_DIR)/link-target.mk elf=$(TARGET_ELF) lib=$(TARGET_LIB)
 
 $(TARGET_LIB): $(TARGET_SRCDIR)

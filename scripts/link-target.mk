@@ -12,11 +12,12 @@ __link: $(out-elf)
 
 ld-flags := $(LD_FLAGS) $(ld-flags-y) -Wl,--whole-archive
 quiet_cmd_link =   LINK   $(patsubst $(TARGET_OUTDIR)/%,%,$@)
-cmd_link = $(CC) $(ld-flags) -o $@ $^
-$(out-elf): $(src-lib)
+cmd_link = $(CC) $(ld-flags) -o $@ $<
+$(out-elf): $(src-lib) FORCE
 	$(call if_changed,link)
 
 PHONY += FORCE
 FORCE:
 
+-include $(dir $(out-elf))/.$(notdir $(out-elf)).cmd
 .PHONY: $(PHONY)
