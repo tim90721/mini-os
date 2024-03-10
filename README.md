@@ -2,14 +2,18 @@
 mini-os is a project that is aimed to practice anything from scratch. The topic
 includes but not limited to OS essential functions, system calls, libc
 implementation, driver development or Makefile build system. The project
-usually refers to Linux Kernel as its reference design.
+usually refers to Linux Kernel as its reference design. Some of the
+implementations are inspired from
+[riscv-operating-system-mooc](https://github.com/plctlab/riscv-operating-system-mooc)
+and
+[mini-riscv-os](https://github.com/cccriscv/mini-riscv-os).
 
 This project uses a python library Kconfiglib to configure the project. For
 more information about Kconfiglib, please refer to the
 [github repo](https://github.com/ulfalizer/Kconfiglib).
 
 The project only support RISC-V toolchain right now, however, it can be
-extended to other architecture in the future.
+extended to other architectures in the future.
 
 ## Requirements
 To build this project, one must have **qemu** and **toolchain** installed. The
