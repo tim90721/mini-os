@@ -43,6 +43,16 @@ static inline void list_node_init(struct list_node *node)
 	     !list_is_head(obj, head, member);				\
 	     (obj) = list_next_entry(obj, member))
 
+static inline void list_join(struct list_node *new_list, struct list_node *head)
+{
+	struct list_node *tail = head->prev;
+
+	tail->next = new_list;
+	head->prev = new_list->prev;
+	new_list->prev->next = head;
+	new_list->prev = tail;
+}
+
 static inline void list_add(struct list_node *node, struct list_node *head)
 {
 	node->next = head->next;
