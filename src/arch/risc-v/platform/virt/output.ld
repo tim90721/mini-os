@@ -15,6 +15,7 @@ SECTIONS
 	} > ram1
 
 	.text : {
+		. = ALIGN(16);
 		__text_start = .;
 		*(.text)
 		*(.text.*)
@@ -28,6 +29,7 @@ SECTIONS
 	} > ram1
 
 	.data : {
+		. = ALIGN(16);
 		__data_start = .;
 		*(.data)
 		*(.data.*)
@@ -37,11 +39,13 @@ SECTIONS
 	} > ram2
 
 	.bss : {
+		. = ALIGN(16);
 		__bss_start = .;
 		*(.bss)
 		*(.bss.*)
 		*(.sbss)
 		*(.sbss.*)
+		. = ALIGN(16);
 		__bss_end = .;
 	} > ram2
 }
