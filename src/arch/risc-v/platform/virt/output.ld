@@ -48,4 +48,10 @@ SECTIONS
 		. = ALIGN(16);
 		__bss_end = .;
 	} > ram2
+
+	PROVIDE(__memory_start = ORIGIN(ram2));
+	PROVIDE(__memory_end = ORIGIN(ram2) + LENGTH(ram2));
+
+	PROVIDE(__heap_start = __bss_end);
+	PROVIDE(__heap_size = __memory_end - __heap_start);
 }
