@@ -48,6 +48,19 @@ static void buffer_input_hex(char *buf, u32 *pos, u32 size,
 	(*pos) += digits;
 }
 
+static void buffer_input_pointer(char *buf, u32 *pos, u32 size, va_list *args)
+{
+	if (*pos < size)
+		buf[*pos] = '0';
+	(*pos)++;
+
+	if (*pos < size)
+		buf[*pos] = 'x';
+	(*pos)++;
+
+	buffer_input_hex(buf, pos, size, true, args);
+}
+
 /*
  * handle printf format %d
  */
@@ -75,6 +88,29 @@ static void buffer_input_digits(char *buf, u32 *pos, u32 size,
 	(*pos) += digits;
 }
 
+static void buffer_input_unsigned_digits(char *buf, u32 *pos, u32 size,
+					 bool longarg, va_list *args)
+{
+	unsigned int digits = 1;
+	unsigned long num;
+	unsigned int n;
+	int i;
+
+	if (longarg)
+		num = va_arg(*args, unsigned long);
+	else
+		num = va_arg(*args, unsigned int);
+
+	for (n = num; n /= 10; digits++)
+		;
+	for (i = digits - 1; i >= 0; i--) {
+		__buffer_input(buf, pos, i, size, '0' + num % 10);
+		num /= 10;
+	}
+
+	(*pos) += digits;
+}
+
 /*
  * handle printf format string
  */
@@ -93,7 +129,6 @@ static inline void buffer_input_string(char *buf, u32 *pos, u32 size,
  * %c: print argument as a character
  * %%: print argument as a %
  * Other formats are not supported yet
- * TODO: support %p, %u
  */
 static int decode_format(char *buf, u32 *pos,
 			 u32 size, const char *fmt, va_list *args)
@@ -109,11 +144,18 @@ static int decode_format(char *buf, u32 *pos,
 	switch (*fmt) {
 	case 'x':
 		buffer_input_hex(buf, pos, size, longarg, args);
-		longarg = 0;
+		longarg = false;
+		break;
+	case 'p':
+		buffer_input_pointer(buf, pos, size, args);
 		break;
 	case 'd':
 		buffer_input_digits(buf, pos, size, longarg, args);
-		longarg = 0;
+		longarg = false;
+		break;
+	case 'u':
+		buffer_input_unsigned_digits(buf, pos, size, longarg, args);
+		longarg = false;
 		break;
 	case 's':
 		buffer_input_string(buf, pos, size, va_arg(*args, const char *));

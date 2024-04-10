@@ -96,21 +96,23 @@ the build system will automatically build it before running or debugging.
    - [TODO]
      - interrupt setup
  - Kernel
+   - basic memory management
+     - [TODO]
+       - enhance O(n) free mechanism
    - [TODO]
      - scheduler
      - context switch
      - generic register definition generation by build system
      - task
-     - memory management
+     - virtual memory
      - MMU
      - system call
      - spinlock, mutex, semaphore
  - libc
    - printf
-     - support %d, %x, %c, %s, %%
-     - [TODO]
-       - %p
-       - %u
+     - support %d, %x, %c, %s, %%, %p, %u
  - driver
    - UART
      - support basic RISC-V virt platform
+     - [TODO]
+       - support Tx
