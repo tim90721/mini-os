@@ -20,10 +20,16 @@ include $(target-build-mk)
 ifneq ($(hostprog),)
 include $(SCRIPTS_DIR)/build-host.mk
 else # hostprog == ""
+
+ifneq ($(autogen-target),)
+include $(SCRIPTS_DIR)/build-autogen.mk
+else # autogen-target == ""
 include $(SCRIPTS_DIR)/build-target.mk
+endif # autogen-target != ""
+
 endif # hostprog != ""
 
-__build: $(hostprog) $(target) $(subdir-obj-y)
+__build: $(hostprog) $(autogen-target) $(target) $(subdir-obj-y)
 	@:
 
 $(subdir-obj-y): $(subdir-y)

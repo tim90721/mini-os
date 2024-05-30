@@ -34,7 +34,10 @@ TARGET_SRCDIR	:= $(SRCDIR)/
 TARGET_OUTDIR	:= $(OUTDIR)/$(TARGET)
 TARGET_LIB	:= $(TARGET_OUTDIR)/built-in.a
 TARGET_ELF	:= $(TARGET_OUTDIR)/$(TARGET).elf
-export TARGET TARGET_OUTDIR
+export TARGET TARGET_OUTDIR TARGET_SRCDIR
+
+GENERATED_INC_DIR	:= $(TARGET_OUTDIR)/include/generated
+export GENERATED_INC_DIR
 
 DEBUG_BUILD := 0
 ifneq ($(filter $(MAKECMDGOALS),debug),)
@@ -55,7 +58,7 @@ menuconfig:
 	python3 $(KCONFIG_DIR)/menuconfig.py Config.in
 
 genconfig:
-	@$(if $(wildcard $(AUTOCONF_DIR)),,mkdir -p $(AUTOCONF_DIR))
+	@$(if $(wildcard $(GENERATED_INC_DIR)),,mkdir -p $(GENERATED_INC_DIR))
 	@export srctree=$(SRCDIR); python3				\
 	$(KCONFIG_DIR)/genconfig.py Config.in				\
 	--header-path $(AUTOCONF_HEADER)
@@ -63,10 +66,13 @@ genconfig:
 config:
 	$(if $(wildcard .config),,$(error "please configure project first"))
 
+autogen:
+	$(Q)$(MAKE) $(build)=$(SRCDIR)/include/generated
+
 all: build
 	@:
 
-build: config genconfig tools $(TARGET_ELF)
+build: config genconfig tools autogen $(TARGET_ELF)
 
 tools: FORCE
 	$(Q)$(MAKE) $(build)=tools/basic
