@@ -1,3 +1,4 @@
 
 obj-y += kernel.o
 obj-y += mm.o
+obj-y += sched.o
