@@ -12,11 +12,11 @@ OBJSIZE		= $(CROSS_COMPILE)size
 CFLAGS := -Wall -Werror			# enable all warning as error
 CFLAGS += -fno-builtin			# disable compiler default built-in functions
 CFLAGS += -I$(SRCDIR)/include		# add default include directory
-CFLAGS += -I$(SRCDIR)/include/platform	# add platform include directory
 CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
 
 # arch default include directories
 CFLAGS += -I$(SRCDIR)/arch/include
+CFLAGS += -I$(SRCDIR)/arch/$(ARCH)/include
 CFLAGS += -I$(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/include
 
 # drivers default include directories
