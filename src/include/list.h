@@ -33,7 +33,7 @@ static inline void list_node_init(struct list_node *node)
 	list_entry((obj)->member.prev, typeof(*obj), member)
 
 #define list_empty(pnode)						\
-	((pnode)->next == (pnode)->prev)
+	((pnode)->next == (pnode))
 
 #define list_is_head(obj, head, member)					\
 	(&(obj)->member == (head))
