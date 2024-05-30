@@ -149,7 +149,7 @@ static void *__alloc_page(u32 cnt)
 
 void *alloc_page(u32 cnt)
 {
-	if (list_empty(&mcore.free_list))
+	if (cnt == 0 || list_empty(&mcore.free_list))
 		return NULL;
 
 	if (cnt == 1)
