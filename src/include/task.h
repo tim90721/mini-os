@@ -5,7 +5,7 @@
 
 #include <list.h>
 
-#include <arch/risc-v/context.h>
+#include <arch/context.h>
 
 struct task_struct {
 	struct context ctx;
