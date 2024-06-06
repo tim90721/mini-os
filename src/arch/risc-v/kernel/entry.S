@@ -69,6 +69,38 @@
 .endm
 
 	.text
+	.global riscv_trap_vector
+
+riscv_trap_vector:
+	# retrieve current context pointer
+	csrrw		t6, mscratch, t6
+	# save current context except t6
+	reg_save	t6
+
+	# backup actual t6 value
+	mv		t5, t6
+	csrr		t6, mscratch
+	sw		t6, TASK_CTX_T6(t5)
+
+	# restore mscratch to current context pointer
+	csrw		mscratch, t5
+
+	# call riscv_trap_handler
+	csrr		a0, mepc
+	csrr		a1, mcause
+	call		riscv_trap_handler
+
+	# update mepc
+	csrw		mepc, a0
+
+	# restore current context
+	csrr		t6, mscratch
+	reg_restore	t6
+
+	# return to process context (machine mode)
+	mret
+
+	.text
 	.global switch_to
 
 switch_to:
@@ -100,4 +132,5 @@ switch_to:
 	reg_restore	t6
 
 	ret
-	.end
+
+.end
