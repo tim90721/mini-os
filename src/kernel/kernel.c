@@ -4,6 +4,7 @@
 
 #include <mm/mm.h>
 #include <sched.h>
+#include <trap.h>
 
 #include <platform/platform.h>
 
@@ -25,11 +26,17 @@ int start_kernel(void)
 {
 	int ret;
 
-	ret = platform_init();
+	ret = trap_init();
 	if (ret)
 		exit(ret);
 
-	memory_init();
+	ret = memory_init();
+	if (ret)
+		exit(ret);
+
+	ret = platform_init();
+	if (ret)
+		exit(ret);
 
 	printf("hello kernel\n");
 
