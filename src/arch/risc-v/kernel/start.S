@@ -3,7 +3,8 @@
 	.equ STACK_SIZE, 1024		# define STACK_SIZE 1024
 
 	.text
-	.global	_start
+	.section	.init, "ax"
+	.global		_start
 
 _start:
 	csrr	t0, mhartid		# read hart id to t0
