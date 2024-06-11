@@ -1,4 +1,8 @@
+#include <errno.h>
 #include <mmio.h>
+#include <stddef.h>
+
+#include <irq.h>
 
 #include <drivers/uart/uart_16550A.h>
 
@@ -35,6 +39,47 @@ int uart_puts(const char *s)
 	return cnt;
 }
 
+static int uart_getc(void)
+{
+	if (uart_read(LSR) & LSR_RX_RDY)
+		return uart_read(RHR);
+
+	return -1;
+}
+
+static int uart_rx_isr(void *priv)
+{
+	int c;
+
+	while ((c = uart_getc())) {
+		if (c == -1)
+			break;
+
+		uart_putc((char)c);
+		if ((char)c == '\r')
+			uart_putc('\n');
+	}
+
+	return 0;
+}
+
+static inline int uart_irq_init(void)
+{
+	struct irq_desc *desc = irq_desc_get(IRQCHIP_PLIC, IRQ_UART_0);
+
+	if (!desc)
+		return -ENODEV;
+
+	/* enable receive irq */
+	uart_write(IER, uart_read(IER) | IER_RX_RDY_IRQ_EN);
+
+	request_irq(desc, uart_rx_isr, NULL);
+	irq_set_priority(desc, 1);
+	irq_enable(desc);
+
+	return 0;
+}
+
 int uart_init(void)
 {
 	u8 lcr;
@@ -58,5 +103,5 @@ int uart_init(void)
 	 */
 	uart_write(LCR, (0x3 & LCR_DLEN_MASK) << LCR_DLEN_SHIFT);
 
-	return 0;
+	return uart_irq_init();
 }
