@@ -2,5 +2,6 @@
 menu "Drivers"
 
 source "drivers/uart/Config.in"
+source "drivers/irqchip/Config.in"
 
 endmenu

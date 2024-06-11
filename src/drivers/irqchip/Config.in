@@ -1,0 +1,8 @@
+
+config IRQCHIP
+	bool "IRQ Chip Drivers"
+	default y
+
+config IRQCHIP_PLIC
+	bool "IRQ Chip PLIC Driver Support"
+	depends on IRQCHIP && ARCH_RISC_V
