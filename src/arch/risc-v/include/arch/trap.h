@@ -4,8 +4,6 @@
 #include <bits.h>
 #include <types.h>
 
-#define MCAUSE_IRQ		BIT(31)
-
 enum interrupt_id {
 	SUPERVISOR_SW_IRQ = 1,
 	MACHINE_SW_IRQ = 3,
@@ -34,5 +32,6 @@ enum exception_id {
 	__EXCEPTION_ID_MAX,
 };
 
+int trap_init(void);
 reg_t riscv_trap_handler(reg_t mepc, reg_t mcause);
 #endif /* _TRAP_RISC_V_H_ */

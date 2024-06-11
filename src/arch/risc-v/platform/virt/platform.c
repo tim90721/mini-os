@@ -1,8 +1,19 @@
+#include <arch/trap.h>
 #include <platform/platform.h>
 
 #include <drivers/uart/uart_16550A.h>
 
 int platform_init(void)
 {
-	return uart_init();
+	int ret;
+
+	ret = trap_init();
+	if (ret)
+		return ret;
+
+	ret = uart_init();
+	if (ret)
+		return ret;
+
+	return 0;
 }

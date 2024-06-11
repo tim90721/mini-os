@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <trap.h>
 
 #include <arch/riscv.h>
+#include <arch/trap.h>
 
 /* define in entry.S */
 extern void riscv_trap_vector(void);
