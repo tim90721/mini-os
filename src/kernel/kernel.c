@@ -4,7 +4,6 @@
 
 #include <mm/mm.h>
 #include <sched.h>
-#include <trap.h>
 
 #include <platform/platform.h>
 
@@ -25,10 +24,6 @@ void task_a(void *param)
 int start_kernel(void)
 {
 	int ret;
-
-	ret = trap_init();
-	if (ret)
-		exit(ret);
 
 	ret = memory_init();
 	if (ret)
