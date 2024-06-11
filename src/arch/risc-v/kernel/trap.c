@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <interrupt.h>
 
 #include <arch/riscv.h>
 #include <arch/trap.h>
@@ -15,7 +16,13 @@ int trap_init(void)
 	 * initialize trap assembly handler,
 	 * eventually it will call to riscv_trap_handler()
 	 */
-	set_mtvec(riscv_trap_vector);
+	mtvec_write(riscv_trap_vector);
+
+	/* enable current hart's MIE machine mode external interrupt */
+	mie_write(mie_read() | MIE_MEIE);
+
+	/* enable current hart's MSTATUS interrupt */
+	mstatus_write(mstatus_read() | MSTATUS_MIE);
 
 	return 0;
 }
@@ -23,9 +30,11 @@ int trap_init(void)
 reg_t riscv_trap_handler(reg_t mepc, reg_t mcause)
 {
 	if (mcause & MCAUSE_IRQ) {
-		printf("IRQ handler not implement yet");
+		if (!arch_irq_handler)
+			exit(-ENODEV);
+
+		arch_irq_handler();
 	} else {
-		printf("mcause: %u\n", mcause);
 		exit(-EINVAL);
 	}
 
