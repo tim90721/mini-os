@@ -18,7 +18,7 @@
 /* MCAUSE */
 #define MCAUSE_IRQ		BIT(31)
 
-static inline void set_mtvec(void (*handler)(void))
+static inline void mtvec_write(void (*handler)(void))
 {
 	__asm__ __volatile__("csrw mtvec, %0" : : "r"(handler));
 }
