@@ -9,7 +9,7 @@ void __task_create(struct task_struct *task,
 		return;
 
 	task->ctx.ra = (reg_t)task_func;
-	task->ctx.sp = (reg_t)((addr_t)task + sizeof(struct task_struct));
+	task->ctx.sp = (reg_t)((addr_t)task + stack_size);
 
 	if (param)
 		task->ctx.a0 = (reg_t)param;
