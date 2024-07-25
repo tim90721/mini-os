@@ -1,6 +1,6 @@
 all:
 
-CROSS_COMPILE ?= riscv32-unknown-elf-
+CROSS_COMPILE ?= riscv64-unknown-elf-
 QEMU ?= qemu-system-riscv32
 export CROSS_COMPILE QEMU
 
