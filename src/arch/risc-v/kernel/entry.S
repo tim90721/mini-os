@@ -70,6 +70,7 @@
 
 	.text
 	.global riscv_trap_vector
+	.align 4
 
 riscv_trap_vector:
 	# retrieve current context pointer
@@ -102,6 +103,7 @@ riscv_trap_vector:
 
 	.text
 	.global switch_to
+	.align 4
 
 switch_to:
 	# Context switch from current to next.
