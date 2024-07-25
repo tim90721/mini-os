@@ -8,10 +8,24 @@
 
 static struct irq_chip *irqchips[__NR_IRQCHIP];
 void (*arch_irq_handler)(void);
+void (*arch_timer_handler)(void);
 
 int unused_irq_handler(void *priv)
 {
 	return -EINVAL;
+}
+
+int set_arch_timer_handler(void (*timer_handler)(void))
+{
+	if (unlikely(!timer_handler))
+		return -ENODEV;
+
+	if (unlikely(arch_irq_handler))
+		return -EBUSY;
+
+	arch_timer_handler = timer_handler;
+
+	return 0;
 }
 
 int set_arch_irq_handler(void (*irq_handler)(void))
