@@ -8,14 +8,19 @@
 
 #include <platform/platform.h>
 
-void task_a(void *param)
+static void init_task(void *param)
 {
 	int i = 0;
+	int ret;
+
+	ret = platform_init();
+	if (ret)
+		exit(ret);
 
 	while (1) {
-		printf("a start\n");
+		printf("task a running, tick: %u\n", tick);
 
-		while (i < 10000000)
+		while (i < 100000000)
 			i++;
 
 		i = 0;
@@ -30,20 +35,16 @@ int start_kernel(void)
 	if (ret)
 		exit(ret);
 
-	ret = platform_init();
-	if (ret)
-		exit(ret);
-
 	ret = time_init();
 	if (ret)
 		exit(ret);
 
 	printf("hello kernel\n");
 
-	ret = task_create(task_a, NULL, PAGE_SIZE);
+	ret = task_create(init_task, NULL, PAGE_SIZE);
 	if (ret) {
-		printf("create task failed: %d\n", ret);
-		return 0;
+		printf("create init task failed: %d\n", ret);
+		return ret;
 	}
 
 	schedule();
