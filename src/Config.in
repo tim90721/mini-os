@@ -1,6 +1,7 @@
 
 source "arch/Config.in"
 source "drivers/Config.in"
+source "kernel/Config.in"
 
 config DEBUG_TRACE
 	bool "Trace debug output"

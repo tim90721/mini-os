@@ -4,6 +4,7 @@
 
 #include <mm/mm.h>
 #include <sched.h>
+#include <time.h>
 
 #include <platform/platform.h>
 
@@ -30,6 +31,10 @@ int start_kernel(void)
 		exit(ret);
 
 	ret = platform_init();
+	if (ret)
+		exit(ret);
+
+	ret = time_init();
 	if (ret)
 		exit(ret);
 
