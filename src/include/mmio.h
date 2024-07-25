@@ -80,4 +80,14 @@ static inline void mmio_clrsetbits_32(uintptr_t addr, u32 mask, u32 val)
 	*(volatile u32 *)addr &= ~mask;
 	*(volatile u32 *)addr |= val;
 }
+
+static inline void mmio_write_64(uintptr_t addr, u64 val)
+{
+	*(volatile u64 *)addr = val;
+}
+
+static inline u64 mmio_read_64(uintptr_t addr)
+{
+	return *(volatile u64 *)addr;
+}
 #endif /* _MMIO_H_ */
