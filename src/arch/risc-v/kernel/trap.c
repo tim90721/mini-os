@@ -19,7 +19,7 @@ int trap_init(void)
 	mtvec_write(riscv_trap_vector);
 
 	/* enable current hart's MIE machine mode external interrupt */
-	mie_write(mie_read() | MIE_MEIE);
+	mie_write(mie_read() | MIE_MEIE | MIE_MTIE);
 
 	/* enable current hart's MSTATUS interrupt */
 	mstatus_write(mstatus_read() | MSTATUS_MIE);
@@ -30,11 +30,23 @@ int trap_init(void)
 reg_t riscv_trap_handler(reg_t mepc, reg_t mcause)
 {
 	if (mcause & MCAUSE_IRQ) {
-		if (!arch_irq_handler)
-			exit(-ENODEV);
+		mcause &= (~MCAUSE_IRQ);
+		if (mcause == MACHINE_TIMER_IRQ) {
+			if (!arch_timer_handler)
+				exit(-ENODEV);
 
-		arch_irq_handler();
+			arch_timer_handler();
+		} else if (mcause == MACHINE_EXT_IRQ) {
+			if (!arch_irq_handler)
+				exit(-ENODEV);
+
+			arch_irq_handler();
+		} else {
+			printf("unsupport mcause: 0x%x\n", mcause);
+			exit(-EINVAL);
+		}
 	} else {
+		printf("unsupport mcause: 0x%x, pc: 0x%x\n", mcause, mepc);
 		exit(-EINVAL);
 	}
 
