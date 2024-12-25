@@ -17,10 +17,12 @@ source "kernel/Config.in"
 config CROSS_COMPILE
 	string "Target compile tool chain"
 	default "riscv64-unknown-elf-" if ARCH_RISC_V
+	default "aarch64-linux-gnu-" if ARCH_ARM64
 
 config QEMU
 	string "Target qemu"
 	default "qemu-system-riscv32" if ARCH_RISC_V
+	default "qemu-system-aarch64" if ARCH_ARM64
 
 config DEBUG_TRACE
 	bool "Trace debug output"

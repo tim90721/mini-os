@@ -1,0 +1,14 @@
+
+choice
+	prompt "ARM64 Target Platform"
+	depends on ARCH_ARM64
+	default PLATFORM_QEMU_ARM64_VIRT
+
+	config PLATFORM_QEMU_ARM64_VIRT
+		bool "Platform Qemu ARM64 Virt"
+
+endchoice
+
+config PLATFORM
+	string
+	default "virt" if PLATFORM_QEMU_ARM64_VIRT
