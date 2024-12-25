@@ -1,4 +1,15 @@
 
+choice
+	prompt "Target Type"
+	default TARGET_KERNEL
+
+	config TARGET_KERNEL
+		bool "Kernel"
+	config TARGET_SANDBOX
+		bool "Sandbox"
+
+endchoice
+
 source "arch/Config.in"
 source "drivers/Config.in"
 source "kernel/Config.in"

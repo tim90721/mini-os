@@ -1,5 +1,6 @@
 
 menu "Drivers"
+depends on TARGET_KERNEL
 
 source "drivers/uart/Config.in"
 source "drivers/irqchip/Config.in"

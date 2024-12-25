@@ -1,5 +1,5 @@
 
 subdir-y += arch/
-subdir-y += drivers/
-subdir-y += kernel/
-subdir-y += libc/
+subdir-$(CONFIG_TARGET_KERNEL) += drivers/
+subdir-$(CONFIG_TARGET_KERNEL) += kernel/
+subdir-$(CONFIG_TARGET_KERNEL) += libc/

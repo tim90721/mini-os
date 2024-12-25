@@ -1,4 +1,9 @@
 
+menu "Kernel"
+depends on TARGET_KERNEL
+
 config TIMER_INTERVAL
 	int "Timer HZ"
 	default 10000
+
+endmenu
