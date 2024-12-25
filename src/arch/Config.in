@@ -5,11 +5,15 @@ choice
 
 	config ARCH_RISC_V
 		bool "RISV-V"
+	config ARCH_ARM64
+		bool "ARM64"
 
 endchoice
 
 config ARCH
 	string
 	default "risc-v" if ARCH_RISC_V
+	default "arm64" if ARCH_ARM64
 
 source "arch/risc-v/Config.in"
+source "arch/arm64/Config.in"
