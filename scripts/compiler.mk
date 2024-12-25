@@ -13,8 +13,9 @@ CFLAGS := -Wall -Werror			# enable all warning as error
 CFLAGS += -fno-builtin			# disable compiler default built-in functions
 CFLAGS += -I$(SRCDIR)/include		# add default include directory
 CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
-CFLAGS += -march=rv32g
-CFLAGS += -mabi=ilp32
+
+# source arch default compiler cflags
+-include $(SRCDIR)/arch/$(ARCH)/compiler.mk
 
 # arch default include directories
 CFLAGS += -I$(SRCDIR)/arch/include
