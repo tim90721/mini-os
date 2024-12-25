@@ -3,6 +3,14 @@ source "arch/Config.in"
 source "drivers/Config.in"
 source "kernel/Config.in"
 
+config CROSS_COMPILE
+	string "Target compile tool chain"
+	default "riscv64-unknown-elf-" if ARCH_RISC_V
+
+config QEMU
+	string "Target qemu"
+	default "qemu-system-riscv32" if ARCH_RISC_V
+
 config DEBUG_TRACE
 	bool "Trace debug output"
 	default n
