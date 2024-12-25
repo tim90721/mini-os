@@ -1,7 +1,10 @@
 all:
 
-CROSS_COMPILE ?= riscv64-unknown-elf-
-QEMU ?= qemu-system-riscv32
+# Try to get CROSS_COMPILE and QEMU
+-include .config
+
+CROSS_COMPILE ?= $(CONFIG_CROSS_COMPILE)
+QEMU ?= $(CONFIG_QEMU)
 export CROSS_COMPILE QEMU
 
 # remove all default make rules
