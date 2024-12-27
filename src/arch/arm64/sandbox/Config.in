@@ -1,0 +1,9 @@
+
+menu "ARM64 Sandbox"
+	depends on TARGET_SANDBOX
+
+config LDR_STR
+	bool "Load Store Practice"
+	default n
+
+endmenu

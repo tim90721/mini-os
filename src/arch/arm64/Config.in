@@ -1,2 +1,3 @@
 
 source "arch/arm64/platform/Config.in"
+source "arch/arm64/sandbox/Config.in"
