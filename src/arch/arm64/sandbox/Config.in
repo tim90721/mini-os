@@ -2,8 +2,12 @@
 menu "ARM64 Sandbox"
 	depends on TARGET_SANDBOX
 
-config LDR_STR
-	bool "Load Store Practice"
-	default n
+choice
+	prompt "Sandbox Target"
+	config LDR_STR
+		bool "Load Store Practice"
+	config MEMCPY_ASM
+		bool "Memory Copy Assembly Practice"
+endchoice
 
 endmenu
