@@ -1,7 +1,7 @@
-#define VALUE	10
+#define VALUE	0x20
 
 	.data				// data section
-	.align 3			// align to 8-bit (2^3)
+	.align 3			// align to 8-byte address (2^3)
 
 some_data:
 	.rept 4				// create 3-byte values on data section
@@ -48,7 +48,7 @@ ldr_basic:
 					// each byte value is 8
 					// pseudo instruction, load some_data's
 					// address to x0
-	ldr	x1,	[x0]		// load 32-bit data from some_data's
+	ldr	w1,	[x0]		// load 32-bit data from some_data's
 					// address
 	ldrh	w2,	[x0]		// load 16-bit data from some_data's
 					// address
@@ -60,7 +60,7 @@ str_basic:
 
 	strb	w3,	[x4]
 	strh	w2,	[x4, #2]
-	str	x1,	[x4, #4]
+	str	w1,	[x4, #4]
 
 	mov	x30,	#1
 	str	x1,	[x0, x30, LSL #3]	// store x1's value to address
