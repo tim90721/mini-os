@@ -8,6 +8,8 @@ choice
 		bool "Load Store Practice"
 	config MEMCPY_ASM
 		bool "Memory Copy Assembly Practice"
+	config MATH_SHIFT
+		bool "Math Shift Practice"
 endchoice
 
 endmenu
