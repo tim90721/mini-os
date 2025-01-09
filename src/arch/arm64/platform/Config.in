@@ -1,4 +1,7 @@
 
+menu "ARM64 Platform Configurations"
+depends on ARCH_ARM64
+
 choice
 	prompt "ARM64 Target Platform"
 	depends on ARCH_ARM64
@@ -12,3 +15,7 @@ endchoice
 config PLATFORM
 	string
 	default "virt" if PLATFORM_QEMU_ARM64_VIRT
+
+source "arch/arm64/platform/virt/Config.in"
+
+endmenu

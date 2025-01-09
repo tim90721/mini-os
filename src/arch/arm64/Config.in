@@ -1,3 +1,9 @@
 
+config ARM64_HYPERVISOR
+	bool
+
+config ARM64_TRUSTZONE
+	bool
+
 source "arch/arm64/platform/Config.in"
 source "arch/arm64/sandbox/Config.in"
