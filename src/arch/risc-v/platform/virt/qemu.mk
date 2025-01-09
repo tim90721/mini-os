@@ -1,1 +1,4 @@
-QFLAGS := -nographic -smp 1 -machine virt -bios none
+qflags-y += -nographic
+qflags-y += -smp 1
+qflags-y += -machine virt
+qflags-y += -bios none
