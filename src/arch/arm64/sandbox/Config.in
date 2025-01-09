@@ -10,6 +10,8 @@ choice
 		bool "Memory Copy Assembly Practice"
 	config MATH_SHIFT
 		bool "Math Shift Practice"
+	config CMP_BRANCH
+		bool "Compare Branch Practice"
 endchoice
 
 endmenu
