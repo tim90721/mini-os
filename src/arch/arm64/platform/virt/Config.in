@@ -1,0 +1,15 @@
+
+menu "ARM64 Virtual Platform Configurations"
+depends on PLATFORM_QEMU_ARM64_VIRT
+
+config ARM64_VIRT_HYPERVISOR
+	bool "Enable Hypervisor"
+	default n
+	select ARM64_HYPERVISOR
+
+config ARM64_VIRT_TRUSTZONE
+	bool "Enable Trustzone"
+	default n
+	select ARM64_TRUSTZONE
+
+endmenu
