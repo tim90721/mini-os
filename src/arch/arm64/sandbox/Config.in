@@ -12,6 +12,8 @@ choice
 		bool "Math Shift Practice"
 	config CMP_BRANCH
 		bool "Compare Branch Practice"
+	config MISC
+		bool "Miscellaneous Instruction Practice"
 endchoice
 
 endmenu
