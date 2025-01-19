@@ -17,7 +17,7 @@ source "kernel/Config.in"
 config CROSS_COMPILE
 	string "Target compile tool chain"
 	default "riscv64-unknown-elf-" if ARCH_RISC_V
-	default "aarch64-linux-gnu-" if ARCH_ARM64
+	default "aarch64-none-elf-" if ARCH_ARM64
 
 config QEMU
 	string "Target qemu"
