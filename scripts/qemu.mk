@@ -1,4 +1,4 @@
-include $(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/qemu.mk
+-include $(SRCDIR)/arch/$(ARCH)/platform/$(PLATFORM)/qemu.mk
 
 QFLAGS = $(qflags-y)
 
