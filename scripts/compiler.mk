@@ -10,6 +10,7 @@ OBJSIZE		= $(CROSS_COMPILE)size
 
 # default C flags
 CFLAGS := -Wall -Werror			# enable all warning as error
+CFLAGS += -nostdlib			# disable default libc implementation
 CFLAGS += -fno-builtin			# disable compiler default built-in functions
 CFLAGS += -I$(SRCDIR)/include		# add default include directory
 CFLAGS += -I$(SRCDIR)/libc/include	# add libc include directory
