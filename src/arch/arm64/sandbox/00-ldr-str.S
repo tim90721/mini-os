@@ -36,7 +36,16 @@ dummy_space:
 	.int 0
 	.endr
 
-	.text
+	.text				// equals to .section .text
+					// .section can be followed by
+					// additional flags
+					// a: the section is allocatable
+					// x: the section is executable
+					// w: the section is writable
+					// S: the section contains
+					//    null-terminated strings
+					// for example
+					// .section .init,"ax"
 	.global _start
 _start:
 ldr_basic:
