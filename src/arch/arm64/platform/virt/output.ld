@@ -4,6 +4,11 @@ MEMORY
 	ram2(WI!R)	: ORIGIN = 0x44000000 LENGTH = 64M
 }
 
+OUTPUT_FORMAT("elf64-littleaarch64", "elf64-bigaarch64",
+	      "elf64-littleaarch64")
+OUTPUT_ARCH(aarch64)
+ENTRY(_start)
+
 SECTIONS
 {
 	.init : {
@@ -34,14 +39,13 @@ SECTIONS
 		__data_end = .;
 	} > ram2
 
-	.bss : {
+	.bss (NOLOAD) : {
 		. = ALIGN(16);
 		__bss_start = .;
 		*(.bss)
 		*(.bss.*)
 		*(.sbss)
 		*(.sbss.*)
-		. = ALIGN(16);
 		__bss_end = .;
 	} > ram2
 
