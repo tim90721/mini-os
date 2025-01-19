@@ -1,0 +1,2 @@
+
+subdir-$(CONFIG_PLATFORM_QEMU_ARM64_VIRT) += virt/
