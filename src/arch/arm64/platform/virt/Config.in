@@ -12,4 +12,25 @@ config ARM64_VIRT_TRUSTZONE
 	default n
 	select ARM64_TRUSTZONE
 
+choice
+	prompt "ARM64 Virtual Platform CPU Number Configuration"
+	default ARM64_VIRT_CPU_1
+
+	config ARM64_VIRT_CPU_1
+		bool "Simulate with 1 ARM64 CPU Core"
+	config ARM64_VIRT_CPU_2
+		bool "Simulate with 2 ARM64 CPU Cores"
+	config ARM64_VIRT_CPU_4
+		bool "Simulate with 4 ARM64 CPU Cores"
+	config ARM64_VIRT_CPU_8
+		bool "Simulate with 8 ARM64 CPU Cores"
+endchoice
+
+config ARM64_VIRT_CPU_CORES
+	int
+	default 1 if ARM64_VIRT_CPU_1
+	default 2 if ARM64_VIRT_CPU_2
+	default 4 if ARM64_VIRT_CPU_4
+	default 8 if ARM64_VIRT_CPU_8
+
 endmenu
