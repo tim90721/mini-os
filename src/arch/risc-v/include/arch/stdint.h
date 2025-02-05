@@ -14,4 +14,6 @@ typedef signed int int32_t;
 typedef signed long long int64_t;
 
 typedef uint32_t size_t;
+typedef uint32_t addr_t;
+typedef uint32_t reg_t;
 #endif /* _ARCH_STDINT_H */
