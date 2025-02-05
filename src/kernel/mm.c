@@ -188,7 +188,7 @@ int memory_init(void)
 	addr_t heap_start_org;
 
 	/* initialize heap end to memory end */
-	mcore.heap_end = (addr_t)__heap_start + (u32)__heap_size;
+	mcore.heap_end = (addr_t)__heap_start + (size_t)__heap_size;
 	/* align heap end 4K down */
 	mcore.heap_end = ALIGN_DOWN(mcore.heap_end, PAGE_SIZE);
 	/* initialize heap start and align to 4K */
@@ -211,7 +211,7 @@ int memory_init(void)
 #if CONFIG_DEBUG_TRACE
 	printf("heap start: %x, heap end: %x, heap size: %x\n",
 		mcore.heap_start, mcore.heap_end, mcore.heap_size);
-	printf("org page cnt: %d, mgmt page cnt: %d, available page cnt\n",
+	printf("org page cnt: %d, mgmt page cnt: %d, available page cnt: %d\n",
 		page_cnt, mgmt_page_cnt, mcore.page_cnt);
 #endif /* CONFIG_DEBUG_TRACE */
 
