@@ -1,7 +1,7 @@
 #ifndef _ARCH_CONTEXT_H_
 #define _ARCH_CONTEXT_H_
 
-#include <types.h>
+#include <stdint.h>
 
 struct context {
 	reg_t ra;

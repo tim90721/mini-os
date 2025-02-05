@@ -1,10 +1,10 @@
 #include <compiler.h>
 #include <errno.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include <irq.h>
 #include <interrupt.h>
-#include <types.h>
 
 static struct irq_chip *irqchips[__NR_IRQCHIP];
 void (*arch_irq_handler)(void);

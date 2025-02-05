@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 #include <list.h>
-#include <types.h>
 
 #define PAGE_SIZE		0x1000 /* 4K */
 

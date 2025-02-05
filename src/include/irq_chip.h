@@ -2,8 +2,7 @@
 #define _IRQ_CHIP_H_
 
 #include <stdbool.h>
-
-#include <types.h>
+#include <stdint.h>
 
 #include <platform/irq.h>
 

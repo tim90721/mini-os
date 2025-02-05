@@ -2,7 +2,7 @@
 #define _RISC_V_
 
 #include <bits.h>
-#include <types.h>
+#include <stdint.h>
 
 /* MIE */
 #define MIE_SSIE		BIT(1)
