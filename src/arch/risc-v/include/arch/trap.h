@@ -2,7 +2,7 @@
 #define _TRAP_RISC_V_H_
 
 #include <bits.h>
-#include <types.h>
+#include <stdint.h>
 
 enum interrupt_id {
 	SUPERVISOR_SW_IRQ = 1,

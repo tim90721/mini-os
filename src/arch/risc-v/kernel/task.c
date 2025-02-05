@@ -1,6 +1,6 @@
 #include <compiler.h>
+#include <stdint.h>
 #include <task.h>
-#include <types.h>
 
 void __task_create(struct task_struct *task,
 		   void (*task_func)(void *param), void *param, u32 stack_size)

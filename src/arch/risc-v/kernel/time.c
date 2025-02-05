@@ -1,7 +1,7 @@
 #include <interrupt.h>
 #include <mmio.h>
+#include <stdint.h>
 #include <time.h>
-#include <types.h>
 
 #include <arch/riscv.h>
 
