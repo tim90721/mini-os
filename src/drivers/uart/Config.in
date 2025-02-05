@@ -5,5 +5,8 @@ config UART
 
 config UART_16550A
 	bool "UART 16550A Driver Support"
-	default y
-	depends on UART && PLATFORM_QEMU_RISC_V_VIRT
+	depends on UART
+
+config UART_PL011
+	bool "UART PL011 Driver Support"
+	depends on UART
