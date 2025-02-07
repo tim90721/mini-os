@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <errno.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -44,6 +45,7 @@ int task_create(void (*task_func)(void *param), void *param, u32 stack_size)
 
 void schedule(void)
 {
+	struct task_struct *prev = NULL;
 	struct task_struct *next;
 
 	if (unlikely(list_empty(&task_list)))
@@ -57,6 +59,7 @@ void schedule(void)
 	if (current)
 		list_add_tail(&current->node, &task_list);
 
+	prev = current;
 	current = next;
-	switch_to(&current->ctx);
+	switch_to(prev, next);
 }
