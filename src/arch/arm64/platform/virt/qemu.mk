@@ -1,6 +1,6 @@
 -include $(TOPDIR)/.config
 
-qflags-y += -machine virt
+qflags-y += -machine virt,gic-version=$(CONFIG_ARM64_VIRT_GIC_VERSION)
 qflags-y += -cpu cortex-a57
 qflags-y += -nographic
 qflags-y += -m 2048
