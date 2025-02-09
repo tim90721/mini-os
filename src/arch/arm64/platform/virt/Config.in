@@ -26,11 +26,32 @@ choice
 		bool "Simulate with 8 ARM64 CPU Cores"
 endchoice
 
+choice
+	prompt "ARM64 Virtual Platform GIC Version"
+	default ARM64_VIRT_GIC_V2
+
+	config ARM64_VIRT_GIC_V2
+		bool "Simulate with ARM64 GICv2"
+		select ARM64_GIC_V2
+	config ARM64_VIRT_GIC_V3
+		bool "Simulate with ARM64 GICv3"
+		select ARM64_GIC_V3
+	config ARM64_VIRT_GIC_V4
+		bool "Simulate with ARM64 GICv4"
+		select ARM64_GIC_V4
+endchoice
+
 config ARM64_VIRT_CPU_CORES
 	int
 	default 1 if ARM64_VIRT_CPU_1
 	default 2 if ARM64_VIRT_CPU_2
 	default 4 if ARM64_VIRT_CPU_4
 	default 8 if ARM64_VIRT_CPU_8
+
+config ARM64_VIRT_GIC_VERSION
+	int
+	default 2 if ARM64_VIRT_GIC_V2
+	default 3 if ARM64_VIRT_GIC_V3
+	default 4 if ARM64_VIRT_GIC_V4
 
 endmenu
