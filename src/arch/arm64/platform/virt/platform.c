@@ -1,5 +1,7 @@
 #include <compiler.h>
 
+#include <arch/trap.h>
+
 #include <drivers/irqchip/irqchip-gic-v2.h>
 #include <drivers/uart/uart_pl011.h>
 
@@ -10,6 +12,10 @@ int platform_init(void)
 	int ret;
 
 	ret = gic_init();
+	if (unlikely(ret))
+		return ret;
+
+	ret = trap_init();
 	if (unlikely(ret))
 		return ret;
 
