@@ -40,6 +40,45 @@
 	ldp		x10, x11, [\base, #TASK_CTX_X10]
 .endm
 
+.macro trap_handler el:req, ht:req, regsize:req, label:req
+	.text
+	.align 3
+el\el\ht\()_\regsize\()_\label:
+	/* preserve space to backup context registers */
+	sub		sp, sp, #CTX_REG_SZ
+
+	/* backup x10, x11 first before using them */
+	/* TODO: should check if stack overflow happened */
+	stp		x10, x11, [sp, #-32]!
+
+	/* load stack address offset to save the context */
+	mov		x10, sp
+	add		x10, x10, #32
+	reg_backup	x10
+
+	/* load original x10, x11 and backup them */
+	ldp		x12, x13, [sp], #32
+	stp		x12, x13, [x10, #TASK_CTX_X10]
+	mov		x12, sp
+	str		x12, [x10, #TASK_CTX_SP]
+
+	/*
+	 * call to trap handler in C environment
+	 * The handler itself should update elr if needed
+	*/
+	bl		el\el\ht\()_\regsize\()_\label\()_handler
+
+	/* restore context */
+	mov		x10, sp
+	reg_restore	x10
+
+	/* free backup context registers space */
+	add		sp, sp, #CTX_REG_SZ
+
+	/* return to normal mode */
+	eret
+.endm
+
 	.text
 	.global switch_to
 	.align 3
@@ -49,6 +88,7 @@ switch_to:
 	   x1: next task to switch to */
 
 	/* backup x10, x11 first before using them */
+	/* TODO: should check if stack overflow happened */
 	stp		x10, x11, [sp, #-32]!
 
 	/* load offset of context to task struct */
@@ -75,3 +115,54 @@ switch_to:
 
 	/* jump to next task */
 	ret
+
+	trap_handler	1, h, 64, sync
+	trap_handler	1, h, 64, irq
+	trap_handler	1, h, 64, fiq
+	trap_handler	1, h, 64, serror
+
+hang:
+	b hang
+
+	.text
+	.align 11
+	.global trap_vector
+trap_vector:
+	/* trap from current EL with SP_EL0 */
+	.align 7	/* synchronous */
+	b hang
+	.align 7	/* IRQ */
+	b hang
+	.align 7	/* FIQ */
+	b hang
+	.align 7	/* SError */
+	b hang
+	/* trap from current EL with SP_ELx */
+	.align 7	/* synchronous */
+	b el1h_64_sync
+	.align 7	/* IRQ */
+	b el1h_64_irq
+	.align 7	/* FIQ */
+	b el1h_64_fiq
+	.align 7	/* SError */
+	b el1h_64_serror
+	/* trap from lower EL with AArch64 */
+	.align 7	/* synchronous */
+	b hang
+	.align 7	/* IRQ */
+	b hang
+	.align 7	/* FIQ */
+	b hang
+	.align 7	/* SError */
+	b hang
+	/* trap from lower EL with AArch32 */
+	.align 7	/* synchronous */
+	b hang
+	.align 7	/* IRQ */
+	b hang
+	.align 7	/* FIQ */
+	b hang
+	.align 7	/* SError */
+	b hang
+
+	.end

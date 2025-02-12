@@ -1,5 +1,6 @@
 #define INIT_STACK_SIZE		4096
 
+	.data
 	.align 6
 _init_stack:
 	.rept	INIT_STACK_SIZE * 8
@@ -56,6 +57,16 @@ prepare_init_stack:
 	ldr	x11, =_init_stack
 	add	x11, x11, x9
 	add	sp, x11, #INIT_STACK_SIZE
+
+	/* configure SPsel */
+	mrs	x10, spsel
+	orr	x10, x10, #1
+	msr	spsel, x10
+
+	/* setup VBAR_EL1 */
+	ldr	x10, =trap_vector
+	msr	vbar_el1, x10
+	mrs	x10, vbar_el1
 
 	/* jump to start kernel */
 	bl	start_kernel

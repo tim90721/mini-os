@@ -37,4 +37,5 @@ void asm_offsets(void)
 	OFFSET(TASK_CTX_LR, struct task_struct, ctx.lr);
 	OFFSET(TASK_CTX_SP, struct task_struct, ctx.sp);
 	OFFSET(TASK_CTX_PC, struct task_struct, ctx.pc);
+	DEFINE(CTX_REG_SZ, sizeof(struct context));
 }
