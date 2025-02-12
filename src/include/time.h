@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-extern u32 tick;
+extern size_t tick;
 
 int arch_time_init(void);
 int time_init(void);
