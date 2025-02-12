@@ -6,3 +6,7 @@ config IRQCHIP
 config IRQCHIP_PLIC
 	bool "IRQ Chip PLIC Driver Support"
 	depends on IRQCHIP && ARCH_RISC_V
+
+config IRQCHIP_GIC_V2
+	bool "IRQ Chip GICv2 Driver Support"
+	depends on IRQCHIP
