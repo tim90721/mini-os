@@ -43,6 +43,12 @@ static inline void list_node_init(struct list_node *node)
 	     !list_is_head(obj, head, member);				\
 	     (obj) = list_next_entry(obj, member))
 
+#define list_for_each_entry_safe(obj, tmp, head, member)		\
+	for ((obj) = list_first_entry((head), typeof(*obj), member),	\
+	     tmp = list_next_entry(obj, member);			\
+	     !list_is_head(obj, head, member);				\
+	     obj = tmp, tmp = list_next_entry(tmp, member))
+
 static inline void list_join(struct list_node *new_list, struct list_node *head)
 {
 	struct list_node *tail = head->prev;
