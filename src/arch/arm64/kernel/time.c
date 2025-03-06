@@ -28,7 +28,7 @@ static void arm_timer_reconfig(u32 val)
 
 static int arm_timer_irq_handler(void *param)
 {
-	tick++;
+	time_tick();
 	arm_timer_reconfig(HZ);
 
 	return 0;

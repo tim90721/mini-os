@@ -6,5 +6,7 @@
 extern size_t tick;
 
 int arch_time_init(void);
+
+void time_tick(void);
 int time_init(void);
 #endif /* _TIME_H_ */
