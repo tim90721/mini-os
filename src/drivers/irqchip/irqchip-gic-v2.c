@@ -134,6 +134,7 @@ static int gic_cpu_init(void)
 
 static void gic_show_info(void)
 {
+#if CONFIG_DEBUG_TRACE
 	u32 iidr = gic_dist_read(GICD_IIDR);
 
 	printf("GIC product ID: 0x%x, variant: 0x%x, revision: 0x%x, manufacturer: 0x%x\n",
@@ -141,6 +142,7 @@ static void gic_show_info(void)
 		(iidr >> GICD_IIDR_VARIANT_SHIFT) & GICD_IIDR_VARIANT_MASK,
 		(iidr >> GICD_IIDR_REV_SHIFT) & GICD_IIDR_REV_MASK,
 		(iidr >> GICD_IIDR_MAKER_SHIFT) & GICD_IIDR_MAKER_MASK);
+#endif /* CONFIG_DEBUG_TRACE */
 }
 
 static void gic_arch_irq_handler(void)
