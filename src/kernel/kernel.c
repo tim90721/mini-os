@@ -1,3 +1,4 @@
+#include <compiler.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,22 +9,21 @@
 
 #include <platform/platform.h>
 
-static void init_task(void *param)
+static void task1(void *param)
 {
-	int i = 0;
-	int ret;
-
-	ret = platform_init();
-	if (ret)
-		exit(ret);
-
 	while (1) {
-		printf("task a running, tick: %u\n", tick);
+		printf("task1 running, tick: %u\n", tick);
 
-		while (i < 100000000)
-			i++;
+		msleep(1000);
+	}
+}
 
-		i = 0;
+static void task2(void *param)
+{
+	while (1) {
+		printf("task2 running, tick: %u\n", tick);
+
+		msleep(5000);
 	}
 }
 
@@ -32,22 +32,39 @@ int start_kernel(void)
 	int ret;
 
 	ret = memory_init();
-	if (ret)
+	if (unlikely(ret))
+		exit(ret);
+
+	ret = platform_init();
+	if (unlikely(ret))
 		exit(ret);
 
 	ret = time_init();
-	if (ret)
+	if (unlikely(ret))
 		exit(ret);
 
-	printf("hello kernel\n");
+	ret = sched_init();
+	if (unlikely(ret))
+		exit(ret);
 
-	ret = task_create(init_task, NULL, PAGE_SIZE);
+	ret = task_create(task1, NULL, PAGE_SIZE);
 	if (ret) {
 		printf("create init task failed: %d\n", ret);
 		return ret;
 	}
 
+	ret = task_create(task2, NULL, PAGE_SIZE);
+	if (ret) {
+		printf("create task2 failed: %d\n", ret);
+		return ret;
+	}
+
 	schedule();
+
+	while (1) {
+		if (sched_has_task_woken())
+			schedule();
+	}
 
 	return 0;
 }
