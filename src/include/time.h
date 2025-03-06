@@ -5,6 +5,8 @@
 
 extern size_t tick;
 
+void msleep(u32 ms);
+
 int arch_time_init(void);
 
 void time_tick(void);
